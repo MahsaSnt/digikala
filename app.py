@@ -91,7 +91,7 @@ def emalls2():
 @app.route('/api/emalls/shoplist',methods=['POST'])
 def emalls3():
     data = request.get_json()
-    shoplist = data["get_data"]
+    shoplist = data["shoplist"]
     products = shoplist_emalls(shoplist)
     return jsonify(products= f"{products}")         
 
