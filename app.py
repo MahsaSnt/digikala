@@ -1,13 +1,14 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+
 #from my own code
 from digikala import all_digikala, incredible_digikala, special_digikala
 from digistyle import all_digistyle, special_digistyle
 from timcheh import all_timcheh, special_timcheh, incredible_timcheh
-from emalls import all_emalls, special_emalls,shoplist_emalls
-# from torob import output_5
-# from tagmond import output_6
+from emalls import all_emalls, special_emalls ,shoplist_emalls
 from banimode import all_banimode, special_banimode, incredible_banimode
+from sheypoor import all_sheypoor
+
 
 app=Flask(__name__)
 CORS(app)
@@ -20,10 +21,8 @@ def digikala1():
     products = all_digikala(num_pages,subject)
     return jsonify(products= f"{products}")
 
-@app.route('/api/digikala/incredible',methods=['POST'])
+@app.route('/api/digikala/incredible')
 def digikala2():
-    data = request.get_json()
-    get_data = data["get_data"]
     products = incredible_digikala()
     return jsonify(products= f"{products}")
 
@@ -65,10 +64,8 @@ def timche2():
     products = special_timcheh(num_pages,subject)
     return jsonify(products= f"{products}")   
 
-@app.route('/api/timcheh/incredible',methods=['POST'])
+@app.route('/api/timcheh/incredible')
 def timche3():
-    data = request.get_json()
-    get_data = data["get_data"]
     products = incredible_timcheh()
     return jsonify(products= f"{products}")   
 
@@ -85,7 +82,7 @@ def emalls2():
     data = request.get_json()
     subject = data["subject"]
     num_pages = data["num_pages"]
-    products = all_emalls(num_pages,subject)
+    products = special_emalls(num_pages,subject)
     return jsonify(products= f"{products}")     
 
 @app.route('/api/emalls/shoplist',methods=['POST'])
@@ -113,29 +110,21 @@ def banimode2():
     products = special_banimode(num_pages,subject)
     return jsonify(products= f"{products}") 
 
-@app.route('/api/banimode/incredible',methods=['POST'])
+@app.route('/api/banimode/incredible')
 def banimode3():
-    data = request.get_json()
-    get_data = data["get_data"]
     products = incredible_banimode()
     return jsonify(products= f"{products}") 
 
+@app.route('/api/sheypoor/all',methods=['POST'])
+def sheypoor1():
+    data = request.get_json()
+    subject = data["subject"]
+    num_pages = data["num_pages"]
+    county = data["county"]
+    products = all_sheypoor(num_pages, subject, county)
+    return jsonify(products= f"{products}") 
 
-# @app.route('/api/torob',methods=['POST'])
-# def torob():
-#     data = request.get_json()
-#     subject = data["subject"]
-#     num_items = data["num_items"]
-#     products = output_5(num_items,subject)
-#     return jsonify(products= f"{products}")   
-
-# @app.route('/api/tagmond',methods=['POST'])
-# def tagmond():
-#     data = request.get_json()
-#     subject = data["subject"]
-#     num_pages = data["num_pages"]
-#     products = output_6(num_pages,subject)
-#     return jsonify(products= f"{products}")           
+  
 if __name__ == '__main__':
     app.run(debug=True)
     
